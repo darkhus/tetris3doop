@@ -2,11 +2,10 @@ package graphics;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 
 
-public class Graphics implements GLEventListener {
+public class Graphics {
 
     private final int netSizeX = 4;
     private final int netSizeY = 8;
@@ -26,21 +25,18 @@ public class Graphics implements GLEventListener {
         {{2, 2, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}}
     };
 
-    public void init(GLAutoDrawable drawable) {
+    public void init(GL gl) {
         // Use debug pipeline
         // drawable.setGL(new DebugGL(drawable.getGL()));
-        GL gl = drawable.getGL();
-        System.err.println("INIT GL IS: " + gl.getClass().getName());
+        //GL gl = drawable.getGL();
 
-        // Enable VSync
-        gl.setSwapInterval(1);
 
         // Setup the drawing area and shading mode
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         gl.glShadeModel(GL.GL_SMOOTH); // try setting this to GL_FLAT and see what happens.
         gl.glEnable(GL.GL_DEPTH_TEST);
         gl.glFrontFace(GL.GL_CCW);
-
+        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
         gl.glCullFace(gl.GL_BACK);
         gl.glEnable(gl.GL_CULL_FACE);
 
@@ -48,24 +44,18 @@ public class Graphics implements GLEventListener {
         gl.glEnable(GL.GL_LIGHTING);
         gl.glEnable(GL.GL_COLOR_MATERIAL);
 
-        float[] LightAmbient = {0.1f, 0.1f, 0.1f, 1.0f};
+        float[] LightAmbient = {0.9f, 0.9f, 0.9f, 1.0f};
         gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, LightAmbient, 0);
         float[] LightDiffuse = {0.9f, 0.9f, 0.9f, 1.0f};
         gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, LightDiffuse, 0);
-        float[] LightPosition = {10.0f, 10.0f, 10.0f, 0.0f};
+        float[] LightPosition = {2.0f, 2.0f, 2.0f, 1.0f};
         gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, LightPosition, 0);
-        float[] LightSpecular = {0.9f, 0.9f, 0.9f, 1.0f};
-        gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, LightSpecular, 0);
 
         gl.glEnable(GL.GL_LIGHT0);
 
     }
 
-    public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-        GL gl = drawable.getGL();
-        GLU glu = new GLU();
-        gl.glCullFace(gl.GL_BACK);
-        gl.glEnable(gl.GL_CULL_FACE);
+    public void reshape(GL gl, GLU glu, int width, int height) {
 
         if (height <= 0) { // avoid a divide by zero error!
 
@@ -75,25 +65,14 @@ public class Graphics implements GLEventListener {
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(45.0f, h, 1.0, 20.0);
+        glu.gluPerspective(45.0f, h, 1.0, 500.0f);
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
     }
 
-    public void display(GLAutoDrawable drawable) {
-        GL gl = drawable.getGL();
+    public void display(GL gl) {
 
-        // Clear the drawing area
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-        // Reset the current matrix to the "identity"
-        gl.glLoadIdentity();
 
-        // Move the "drawing cursor" around
-        gl.glTranslatef(0.0f, 0.0f, -netSizeX * 2.8f);
-        gl.glRotatef(20, 0f, 1f, 0f);
-        //gl.glRotatef(180, 0f, 1f, 0f);
-
-        
         gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_LINE);
 
         buildWorld(gl, netSizeX, netSizeY, world.length, world[0].length);

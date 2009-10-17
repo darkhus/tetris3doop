@@ -1,98 +1,86 @@
 package main;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.media.opengl.*;
 
-public class JOGL extends JFrame implements WindowListener {
 
-    private TetrisGL canvas;
+public class JOGL extends JFrame implements WindowListener
+{
+	private TetrisGL canvas;
 
-    public JOGL() {
-        super("Tetris 3D");
-        // utworzenie kontenera
-        Container c = getContentPane();
-        c.setLayout(new BorderLayout());
-        // dodanie panelu do okna
-        c.add(makeRenderPanel(), BorderLayout.CENTER);
+	public JOGL()
+	{
+	  	super("Tetris 3D");
+	    Container c = getContentPane();
+	    c.setLayout( new BorderLayout() );
+	    c.add( makeRenderPanel(), BorderLayout.CENTER);
 
-        // dodanie obs?ugi dla zda?e? okna
-        addWindowListener(this);
+	    addWindowListener(this);
 
-        pack();
-        setVisible(true);
-    }
+	    pack();
+	    setVisible(true);
+	}
 
-    public JPanel makeRenderPanel() {
-        JPanel renderPane = new JPanel();	// utworzenie panleu
-        renderPane.setLayout(new BorderLayout());
-        renderPane.setOpaque(true);
-        renderPane.setPreferredSize(new Dimension(800, 600));
-        // utworzeni p?ótna
-        canvas = makeCanvas();
-        // dodanie p?utna do panelu (okna)
-        renderPane.add(canvas, BorderLayout.CENTER);
-        // p?ótno otrzymuje informacje o zdarzeniach (klawisze)
-        canvas.setFocusable(true);
-        canvas.requestFocus();
-        // wykrywa rozmiary okna i kszta?tuje p?ótno wg tych rozmiarów
-        renderPane.addComponentListener(new ComponentAdapter() {
 
-            public void componentResized(ComponentEvent evt) {
-                Dimension d = evt.getComponent().getSize();
-                canvas.reshape(d.width, d.height);
-            }
-        });
+	public JPanel makeRenderPanel()
+	{
+	    JPanel renderPane = new JPanel();
+	    renderPane.setLayout( new BorderLayout() );
+	    renderPane.setOpaque(true);
+	    renderPane.setPreferredSize( new Dimension(800, 600));
 
-        return renderPane;
-    }
+	    canvas = makeCanvas();
 
-    public TetrisGL makeCanvas() {
-        // pobieranie konfiguracji odpowiedniej dla p?ótna (canvas)
-        GLCapabilities caps = new GLCapabilities();
+	    renderPane.add(canvas, BorderLayout.CENTER);
 
-        System.out.println(caps.toString());
-        AWTGraphicsDevice dev = new AWTGraphicsDevice(null);
-        // wybiera konfiguracje graficzn? odpowiedni? dla danego systemu, opart? n ainformacji z GLCapabilities
-        AWTGraphicsConfiguration awtConfig = (AWTGraphicsConfiguration) GLDrawableFactory.getFactory().chooseGraphicsConfiguration(caps, null, dev);
+	    canvas.setFocusable(true);
+	    canvas.requestFocus();
 
-        GraphicsConfiguration config = null;
-        if (awtConfig != null) {
-            config = awtConfig.getGraphicsConfiguration();
-        }
+	    renderPane.addComponentListener( new ComponentAdapter() {
+	      public void componentResized(ComponentEvent evt)
+	      { Dimension d = evt.getComponent().getSize();
+	        canvas.reshape(d.width, d.height);
+	      }
+	    });
 
-        return new TetrisGL(caps);
-    }
+	    return renderPane;
+	}
 
-    public void windowActivated(WindowEvent e) {
-        canvas.resumeGame();
-    }
+	public TetrisGL makeCanvas()
+	{
+        GLCapabilities capabilities = new GLCapabilities();
+        capabilities.setHardwareAccelerated(true);
+        capabilities.setNumSamples(2); // 2x antialiasing
+        capabilities.setSampleBuffers(true);
 
-    public void windowDeactivated(WindowEvent e) {
-        canvas.pauseGame();
-    }
+	    return new TetrisGL(capabilities);
+	}
 
-    public void windowDeiconified(WindowEvent e) {
-        canvas.resumeGame();
-    }
 
-    public void windowIconified(WindowEvent e) {
-        canvas.pauseGame();
-    }
+	public void windowActivated(WindowEvent e)
+	{ canvas.resumeGame(); }
 
-    public void windowClosing(WindowEvent e) {
-        canvas.stopGame();
-    }
+	public void windowDeactivated(WindowEvent e)
+	{ canvas.pauseGame(); }
 
-    public void windowClosed(WindowEvent e) {
-    }
+	public void windowDeiconified(WindowEvent e)
+	{ canvas.resumeGame(); }
 
-    public void windowOpened(WindowEvent e) {
-    }
+	public void windowIconified(WindowEvent e)
+	{ canvas.pauseGame(); }
 
-    public static void main(String[] args) {
-        new JOGL();
-    }
+	public void windowClosing(WindowEvent e)
+	{ canvas.stopGame(); }
+
+	public void windowClosed(WindowEvent e) {}
+	public void windowOpened(WindowEvent e) {}
+
+	public static void main(String[] args)
+	{
+    	new JOGL();
+	}
 }
 

@@ -1,6 +1,5 @@
 package main;
 
-
 import java.applet.*;
 import java.awt.*;
 import javax.media.opengl.*;
@@ -20,26 +19,17 @@ public class AppletJOGL extends Applet implements Runnable{
 
 	public TetrisGL makeCanvas()
 	{
-	  	// pobieranie konfiguracji odpowiedniej dla p?ótna (canvas)
-	    GLCapabilities caps = new GLCapabilities();
+        GLCapabilities capabilities = new GLCapabilities();
+        capabilities.setHardwareAccelerated(true);
+        capabilities.setNumSamples(2); // 2x antialiasing
+        capabilities.setSampleBuffers(true);
 
-		System.out.println(caps.toString());
-	    AWTGraphicsDevice dev = new AWTGraphicsDevice(null);
-	    // wybiera konfiguracje graficzn? odpowiedni? dla danego systemu, opart? n ainformacji z GLCapabilities
-	    AWTGraphicsConfiguration awtConfig = (AWTGraphicsConfiguration)
-	       GLDrawableFactory.getFactory().chooseGraphicsConfiguration(caps, null, dev);
-
-	    GraphicsConfiguration config = null;
-	    if (awtConfig != null)
-	      config = awtConfig.getGraphicsConfiguration();
-
-	    return new TetrisGL(caps);
+	    return new TetrisGL(capabilities);
 	}
 
 	public void init() {
 //		cookieThread = new CookieThread();
 		new Thread(this).start();
-//		States.applet = true;
 		setLayout(new BorderLayout());
 		canvas = makeCanvas();
 
@@ -47,18 +37,6 @@ public class AppletJOGL extends Applet implements Runnable{
 //		animator = new FPSAnimator(canvas, 60);
 		animator = new Animator(canvas);
 
-//		writeCookie("Daras_5||||TEST_10|");
-
-//		String cookie = getCookieByName(cookieName);
-//		System.out.println("ciasteczka:  "+cookie);
-
-//		loadSetup(cookie);
-
-//		int i=0;
-//		i=readCounter();
-//		++i;
-//		writeCounter(i);
-//		writeCookie("aaa_5|ccc_3|||TEST_10|");
 	}
 
 	public void start() {
@@ -74,7 +52,6 @@ public class AppletJOGL extends Applet implements Runnable{
 	{
 		while(true)
 		{
-//		System.out.println(a++);
 		try{
 			Thread.sleep(1000);
 		}

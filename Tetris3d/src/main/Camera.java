@@ -14,7 +14,7 @@ public class Camera
 
 	public Camera()
    	{
-    	speed = 0.18f;
+    	speed = 0.9f;
     	angleX = 0.0f;
     	angleY = 0.0f;
         dist = -14;

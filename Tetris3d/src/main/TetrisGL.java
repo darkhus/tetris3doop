@@ -1,10 +1,7 @@
 package main;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.media.opengl.*;
 import javax.media.opengl.glu.GLU;
 
@@ -32,12 +29,11 @@ public class TetrisGL extends GLCanvas implements Runnable
 
 	private KeyChecker keys;
 
-	private Font font;
-	private FontMetrics metrics;
-	private BufferedImage waitIm;
-
     private boolean isRunning;
     private graphics.Graphics myGraphic;
+    private final int UPS = 80; // update per sec
+    private int countTime = 0;
+    private float blockSpeed = 2.0f; // liczba sekund na wywo³anie
 
 
     public TetrisGL(GLCapabilities caps)
@@ -46,16 +42,10 @@ public class TetrisGL extends GLCanvas implements Runnable
 
    		panelWidth = 800;
     	panelHeight = 600;
-/*
-    	font = new Font("SansSerif", Font.BOLD, 24);
-    	metrics = this.getFontMetrics(font);
-    	try {
-    		waitIm = ImageIO.read( getClass().getResourceAsStream("images/start.jpg") );
-    		}
-    	catch(IOException e) {
-      	System.out.println("cannot read images/start.jpg");
-    	}
-*/
+
+        period = (long) 1000.0/UPS;
+    	period *= 1000000L;    // ms -> nano
+
     	drawable = GLDrawableFactory.getFactory().getGLDrawable(this, caps, null);
     	context = drawable.createContext(null);
 
@@ -98,22 +88,8 @@ public class TetrisGL extends GLCanvas implements Runnable
     	panelWidth = w; panelHeight = h;
 	}
 
-	public void paint(Graphics g)
+	public void paint(java.awt.Graphics g)
 	{
-		if (isRunning)
-  		{
-  			String msg = "Welcome In Tetris";
-			int x = (panelWidth - metrics.stringWidth(msg))/2;
-			int y = (panelHeight - metrics.getHeight())/3;
-			g.setColor(Color.white);
-			g.setFont(font);
-
-			int xIm = (panelWidth - waitIm.getWidth())/2;
-			int yIm = 0 ;
-			g.drawImage(waitIm, xIm, yIm, this);
-	//		g.drawString(msg, x, y);
-		}
-
 	}
 
     public void run()
@@ -208,8 +184,7 @@ public class TetrisGL extends GLCanvas implements Runnable
 	        	excess -= period;
 		    	gameUpdate();    // sama aktualizacja
 	        	skips++;
-	      	}
-	      	//rendersSkipped += skips;
+	      	}	      	
 	      	context.release();
 		}
 	}
@@ -217,6 +192,12 @@ public class TetrisGL extends GLCanvas implements Runnable
 	private void gameUpdate()
 	{
         camera.Update(keys.keys);
+        countTime++;
+        if(countTime >= UPS * blockSpeed)
+        {
+//            System.out.println("wywo³anie co  sec");
+            countTime = 0;
+        }
 	}
 
     public void destroyAll()

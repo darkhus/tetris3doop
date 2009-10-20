@@ -19,11 +19,19 @@ abstract public class BlockFactory {
         {{0, 3, 0}, {0, 0, 0}, {0, 0, 0}}
         }, {
         {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
-        {{2, 2, 2}, {2, 2, 2}, {0, 0, 0}},
-        {{2, 2, 2}, {2, 2, 2}, {0, 0, 0}}
+        {{2, 2, 0}, {2, 2, 0}, {0, 0, 0}},
+        {{2, 2, 0}, {2, 2, 0}, {0, 0, 0}}
         }, {
         {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
-        {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}},
+        {{0, 0, 0}, {0, 4, 0}, {0, 0, 0}},
+        {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
+        }, {
+        {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
+        {{1, 1, 1}, {0, 1, 0}, {0, 0, 0}},
+        {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
+        }, {
+        {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
+        {{0, 4, 0}, {0, 4, 0}, {0, 4, 0}},
         {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
         }};
 
@@ -34,7 +42,7 @@ abstract public class BlockFactory {
 
     public static Block create(short[][][] world) {
         Random rand = new Random();
-        short[][][] pattern = kindsOfBlocks[rand.nextInt(kindsOfBlocks.length)];
+        short[][][] pattern = kindsOfBlocks[1];
         return new Block((byte)(rand.nextInt(4) + 2), startY, (byte)(rand.nextInt(4) + 2), pattern, world);
     }
 

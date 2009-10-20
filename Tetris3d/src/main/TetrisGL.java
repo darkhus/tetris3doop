@@ -7,6 +7,8 @@ import blockLogic.Logic;
 
 import javax.media.opengl.*;
 import javax.media.opengl.glu.GLU;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 public class TetrisGL extends GLCanvas implements Runnable {
 
@@ -183,7 +185,15 @@ public class TetrisGL extends GLCanvas implements Runnable {
     private void gameUpdate() {
         camera.Update(keys.keys);
         countTime++;
-        if (block == null) {
+        if (block == null || block.isMoving() == false) {
+            if (block != null) {
+                block.addToWorld();
+                Logic.removeLevels(world);
+                if (Logic.gameIsOver(world)) {
+                    JOptionPane.showMessageDialog(this, "Game Over");
+                    Logic.cleanWorld(world);
+                }
+            }
             //create new block
             block = BlockFactory.create(world);
         }
@@ -193,11 +203,8 @@ public class TetrisGL extends GLCanvas implements Runnable {
         myGraphic.setPatternBox(block.getPatternBox());
         if (countTime >= UPS * blockSpeed) {
             System.out.println("wywo³anie co  sec");
-            
             if (!block.go()) {
-                block.addToWorld();
-                Logic.removeLevels(world);
-                block = null;
+                block.setMoving(false);
             }
             //block.goRight();
             countTime = 0;

@@ -33,8 +33,10 @@ public class BlockMove {
             keys[KeyEvent.VK_DOWN] = false;
         }
         if (keys[KeyEvent.VK_SPACE] == true) {
-            block.go();
-            keys[KeyEvent.VK_DOWN] = false;
+            if (!block.go()) {
+                block.setMoving(false);
+            }
+            keys[KeyEvent.VK_SPACE] = false;
         }
         if (keys[KeyEvent.VK_X] == true) {
             block.turnLeftHor();

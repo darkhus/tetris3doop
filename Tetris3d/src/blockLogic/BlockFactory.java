@@ -42,7 +42,7 @@ abstract public class BlockFactory {
 
     public static Block create(short[][][] world) {
         Random rand = new Random();
-        short[][][] pattern = kindsOfBlocks[1];
+        short[][][] pattern = kindsOfBlocks[rand.nextInt(kindsOfBlocks.length)];
         return new Block((byte)(rand.nextInt(4) + 2), startY, (byte)(rand.nextInt(4) + 2), pattern, world);
     }
 

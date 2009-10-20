@@ -11,6 +11,16 @@ public class Block {
     private short[][][] patternBox;
     private short[][][] world;
 
+    private boolean moving = true;
+
+    public boolean isMoving() {
+        return moving;
+    }
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
+    }
+
     public Block(byte wX, byte wY, byte wZ, short[][][] patternBox, short[][][] world) {
         coordinateX = wX;
         coordinateY = wY;
@@ -181,7 +191,7 @@ public class Block {
         short[][][] newPatternBox = new short[size][size][size];
         for (int k = 0; k < size; k++) {
             newPatternBox[k][0][0] = this.patternBox[k][2][0];
-            newPatternBox[k][2][0] = this.patternBox[k][2][0];
+            newPatternBox[k][2][0] = this.patternBox[k][2][2];
             newPatternBox[k][2][2] = this.patternBox[k][0][2];
             newPatternBox[k][0][2] = this.patternBox[k][0][0];
 

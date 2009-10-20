@@ -3,7 +3,7 @@ package main;
 import blockLogic.Block;
 import blockLogic.BlockFactory;
 import blockLogic.BlockMove;
-import java.awt.*;
+import blockLogic.Logic;
 
 import javax.media.opengl.*;
 import javax.media.opengl.glu.GLU;
@@ -189,13 +189,14 @@ public class TetrisGL extends GLCanvas implements Runnable {
         }
         blockMove.setBlock(block);
         blockMove.update(keys.keys);
-
+        myGraphic.setCoords(block.getLocation());
+        myGraphic.setPatternBox(block.getPatternBox());
         if (countTime >= UPS * blockSpeed) {
             System.out.println("wywo³anie co  sec");
-            myGraphic.setCoords(block.getLocation());
-            myGraphic.setPatternBox(block.getPatternBox());
+            
             if (!block.go()) {
                 block.addToWorld();
+                Logic.removeLevels(world);
                 block = null;
             }
             //block.goRight();

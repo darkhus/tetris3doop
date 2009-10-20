@@ -9,13 +9,15 @@ public class Graphics {
 
     private final int netSizeX = 4;
     private final int netSizeY = 8;
+    
     float[][] colorLookUpTable = new float[][]{{0.3f, 0.5f, 0f}, {0.6f, 0.3f, 0f}, {0f, 0.4f, 0.7f}, {0.3f, 0f, 0.5f}};
-    private short[][][] patternBox = new short[][][]{
-        {{0, 0, 0}, {0, 3, 0}, {0, 3, 0}},
-        {{0, 0, 0}, {0, 3, 0}, {0, 0, 0}},
-        {{0, 0, 0}, {0, 3, 0}, {0, 0, 0}}
+    public short[][][] patternBox = new short[][][]{
+        {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
+        {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
+        {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
     };
-    private byte[] coords = new byte[]{5, 11, 1};
+
+    public byte[] coords = new byte[]{0, 10, 0};
     short[][][] world = new short[][][]{
         {{1, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
         {{1, 0, 0, 0, 0, 0}, {4, 4, 4, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
@@ -24,6 +26,30 @@ public class Graphics {
         {{2, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
         {{2, 2, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}}
     };
+
+    public synchronized  byte[] getCoords() {
+        return coords;
+    }
+
+    public synchronized  void setCoords(byte[] coords) {
+        this.coords = coords;
+    }
+
+    public synchronized  short[][][] getPatternBox() {
+        return patternBox;
+    }
+
+    public synchronized  void setPatternBox(short[][][] patternBox) {
+        this.patternBox = patternBox;
+    }
+
+    public synchronized  short[][][] getWorld() {
+        return world;
+    }
+
+    public void setWorld(short[][][] world) {
+        this.world = world;
+    }
 
     public void init(GL gl) {
         // Use debug pipeline
@@ -70,7 +96,7 @@ public class Graphics {
         gl.glLoadIdentity();
     }
 
-    public void display(GL gl) {
+    public synchronized void display(GL gl) {
 
 
         gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_LINE);

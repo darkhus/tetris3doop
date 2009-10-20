@@ -32,6 +32,26 @@ public class BlockMove {
             block.goDown();
             keys[KeyEvent.VK_DOWN] = false;
         }
+        if (keys[KeyEvent.VK_SPACE] == true) {
+            block.go();
+            keys[KeyEvent.VK_DOWN] = false;
+        }
+        if (keys[KeyEvent.VK_X] == true) {
+            block.turnLeftHor();
+            keys[KeyEvent.VK_X] = false;
+        }
+        if (keys[KeyEvent.VK_C] == true) {
+            block.turnRightHor();
+            keys[KeyEvent.VK_C] = false;
+        }
+        if (keys[KeyEvent.VK_F] == true) {
+            block.turnLeftVer();
+            keys[KeyEvent.VK_F] = false;
+        }
+        if (keys[KeyEvent.VK_V] == true) {
+            block.turnRightVer();
+            keys[KeyEvent.VK_V] = false;
+        }
     }
 
     public void setBlock(Block block) {

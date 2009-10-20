@@ -21,7 +21,7 @@ public class Block {
 
      public boolean go() {
        System.out.println("akutalnie Y: " + coordinateY);
-       if (canMove(coordinateX, (byte)(coordinateY - 1), coordinateZ)) {
+       if (canMove(coordinateX, (byte)(coordinateY - 1), coordinateZ, this.patternBox)) {
             move(coordinateX, (byte)(coordinateY - 1), coordinateZ);
             return true;
         }
@@ -29,7 +29,7 @@ public class Block {
     }
 
     public boolean goForward() {
-        if (canMove(coordinateX, coordinateY, (byte)(coordinateZ + 1))) {
+        if (canMove(coordinateX, coordinateY, (byte)(coordinateZ + 1), this.patternBox)) {
             move(coordinateX, coordinateY, (byte)(coordinateZ + 1));
             return true;
         }
@@ -37,7 +37,7 @@ public class Block {
     }
 
     public boolean goBackward() {
-        if (canMove(coordinateX, coordinateY, (byte)(coordinateZ - 1))) {
+        if (canMove(coordinateX, coordinateY, (byte)(coordinateZ - 1), this.patternBox)) {
             move(coordinateX, coordinateY, (byte)(coordinateZ - 1));
             return true;
         }
@@ -45,7 +45,7 @@ public class Block {
     }
 
     public boolean goLeft() {
-        if (canMove((byte)(coordinateX - 1), coordinateY, coordinateZ)) {
+        if (canMove((byte)(coordinateX - 1), coordinateY, coordinateZ, this.patternBox)) {
             move((byte)(coordinateX - 1), coordinateY, coordinateZ);
             return true;
         }
@@ -53,7 +53,7 @@ public class Block {
     }
 
     public boolean goRight() {
-        if (canMove((byte)(coordinateX + 1), coordinateY, coordinateZ)) {
+        if (canMove((byte)(coordinateX + 1), coordinateY, coordinateZ, this.patternBox)) {
             move((byte)(coordinateX + 1), coordinateY, coordinateZ);
             return true;
         }
@@ -61,7 +61,7 @@ public class Block {
     }
 
     public boolean goDown() {
-        if (canMove(coordinateX, coordinateY, (byte)(coordinateZ - 1))) {
+        if (canMove(coordinateX, coordinateY, (byte)(coordinateZ - 1), this.patternBox)) {
             move(coordinateX, coordinateY, (byte)(coordinateZ - 1));
             return true;
         }
@@ -81,7 +81,7 @@ public class Block {
         return loc;
     }
 
-    private boolean canMove(byte x, byte y, byte z)
+    private boolean canMove(byte x, byte y, byte z, short[][][] patternBox)
     {
         System.out.println("akutalna wspolrzedna " + coordinateX + " " + coordinateY + " " + coordinateZ);
         System.out.println("docelowa wspolrzedna " + x + " " + y + " " + z);
@@ -105,37 +105,6 @@ public class Block {
                 }
             }
         }
-
-        /*int it, jt, kt;
-        for(int i=0; i<6; i++) {
-            for (int j=0; j < 12; j++) {
-                for (int k =0; k <6; k++) {
-                    if (world[i][j][k] != 0) {
-                        System.out.println("jest blok dla " + i + " " + j + " " + k);
-                    }
-                }
-            }
-        }
- 
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                for (int k = 0; k < size; k++) {
-                    it = i - 1;
-                    jt = j - 1;
-                    kt = k - 1;
-                    System.out.println("sprawdzam blok " + (it + x) + " i " + (jt + y) + " i "  + (kt + z) +  "=" + world[it + x][jt + y][kt + z] + " a pattern box to " + i + " " + j + " " + k + " = " + patternBox[i][j][k]);
-                    if (patternBox[i][j][k] != 0 && (it + x > 6 || it + x < 0 || jt + y < 1 || kt + z > 6 || kt + z < 1)) {
-
-                        return false;
-                    }
-                    
-                    if (patternBox[i][j][k] != 0 && world[it + x][jt + y][kt + z] != 0) {
-                        return false;
-                    }
-                }
-            }
-        }
-        */
         return true;
     }
 
@@ -156,10 +125,15 @@ public class Block {
             newPatternBox[2][2][k] = this.patternBox[0][2][k];
             newPatternBox[0][2][k] = this.patternBox[0][0][k];
 
+            newPatternBox[1][1][k] = this.patternBox[1][1][k];
+
             newPatternBox[1][0][k] = this.patternBox[2][1][k];
             newPatternBox[2][1][k] = this.patternBox[1][2][k];
             newPatternBox[1][2][k] = this.patternBox[0][1][k];
             newPatternBox[0][1][k] = this.patternBox[1][0][k];
+        }
+        if (canMove(coordinateX, coordinateY, coordinateZ, newPatternBox)) {
+            this.patternBox = newPatternBox;
         }
     }
 
@@ -171,10 +145,15 @@ public class Block {
             newPatternBox[2][2][k] = this.patternBox[2][0][k];
             newPatternBox[2][0][k] = this.patternBox[0][0][k];
 
+            newPatternBox[1][1][k] = this.patternBox[1][1][k];
+
             newPatternBox[1][0][k] = this.patternBox[0][1][k];
             newPatternBox[0][1][k] = this.patternBox[1][2][k];
             newPatternBox[1][2][k] = this.patternBox[2][1][k];
             newPatternBox[2][1][k] = this.patternBox[1][0][k];
+        }
+        if (canMove(coordinateX, coordinateY, coordinateZ, newPatternBox)) {
+            this.patternBox = newPatternBox;
         }
     }
 
@@ -186,10 +165,15 @@ public class Block {
             newPatternBox[k][2][2] = this.patternBox[k][2][0];
             newPatternBox[k][2][0] = this.patternBox[k][0][0];
 
+            newPatternBox[k][1][1] = this.patternBox[k][1][1];
+
             newPatternBox[k][1][0] = this.patternBox[k][0][1];
             newPatternBox[k][0][1] = this.patternBox[k][1][2];
             newPatternBox[k][1][2] = this.patternBox[k][2][1];
             newPatternBox[k][2][1] = this.patternBox[k][1][0];
+        }
+        if (canMove(coordinateX, coordinateY, coordinateZ, newPatternBox)) {
+            this.patternBox = newPatternBox;
         }
     }
 
@@ -201,10 +185,15 @@ public class Block {
             newPatternBox[k][2][2] = this.patternBox[k][0][2];
             newPatternBox[k][0][2] = this.patternBox[k][0][0];
 
+            newPatternBox[k][1][1] = this.patternBox[k][1][1];
+
             newPatternBox[k][1][0] = this.patternBox[k][2][1];
             newPatternBox[k][2][1] = this.patternBox[k][1][2];
             newPatternBox[k][1][2] = this.patternBox[k][0][1];
             newPatternBox[k][0][1] = this.patternBox[k][1][0];
+        }
+        if (canMove(coordinateX, coordinateY, coordinateZ, newPatternBox)) {
+            this.patternBox = newPatternBox;
         }
     }
 

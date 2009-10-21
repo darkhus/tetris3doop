@@ -1,18 +1,17 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package blogic;
 
 import java.util.Random;
 
 /**
+ * factory class, it creates new blocks
  *
- * @author Pafciu
+ * @author Pawel
  */
 abstract public class BlockFactory {
 
+    /**
+     * types of avaible blocks
+     */
     private static short[][][][] kindsOfBlocks = {{
         {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
         {{0, 3, 0}, {0, 3, 0}, {0, 3, 0}},
@@ -35,11 +34,27 @@ abstract public class BlockFactory {
         {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
         }};
 
+    /**
+     * x start point for the block
+     */
     private static byte startX = 4;
+    
+    /**
+     * y start point for the block
+     */
     private static byte startY = 11;
+
+    /**
+     * z start point for the block
+     */
     private static byte startZ = 4;
 
-
+    /**
+     * randomly creates block
+     *
+     * @param world
+     * @return new Block
+     */
     public static Block create(short[][][] world) {
         Random rand = new Random();
         short[][][] pattern = kindsOfBlocks[rand.nextInt(kindsOfBlocks.length)];

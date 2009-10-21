@@ -1,19 +1,22 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package blogic;
 
 import java.awt.event.KeyEvent;
 
 /**
+ * that class contains code which handles key
  *
- * @author Pafciu
+ * @author Pawel
  */
 public class BlockMove {
 
+    /**
+     * block which move is controlled
+     */
     private Block block;
 
+    /**
+     * methods control block's movement
+     */
     public void update(boolean[] keys) {
         if (keys[KeyEvent.VK_LEFT] == true) {
             block.goLeft();
@@ -56,6 +59,10 @@ public class BlockMove {
         }
     }
 
+    /**
+     * sets block
+     * @param block
+     */
     public void setBlock(Block block) {
         this.block = block;
     }

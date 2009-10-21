@@ -30,11 +30,28 @@ public class TetrisGL extends GLCanvas implements Runnable {
 	private KeyChecker keys;
     private boolean isRunning;
     private graphics.Graphics myGraphic;
+    /**
+     * communicate which is shown
+     */
+    private String gameOverCommunicate = "Game Over";
+
+    /**
+     * block object
+     */
     private Block block;
+    
     private final int UPS = 80; // update per sec
     private int countTime = 0;
     private float blockSpeed = 2.0f; // liczba sekund na wywo³anie
+    
+    /**
+     * object which handles block movement
+     */
     private BlockMove blockMove;
+
+    /**
+     * world array
+     */
     private short[][][] world = new short[][][]{
         {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
         {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
@@ -194,7 +211,7 @@ public class TetrisGL extends GLCanvas implements Runnable {
                 block.addToWorld();
                 Logic.removeLevels(world);
                 if (Logic.gameIsOver(world)) {
-                    JOptionPane.showMessageDialog(this, "Game Over");
+                    JOptionPane.showMessageDialog(this, this.gameOverCommunicate);
                     Logic.cleanWorld(world);
                 }
             }
@@ -206,11 +223,10 @@ public class TetrisGL extends GLCanvas implements Runnable {
         myGraphic.setCoords(block.getLocation());
         myGraphic.setPatternBox(block.getPatternBox());
         if (countTime >= UPS * blockSpeed) {
-            System.out.println("wywo³anie co  sec");
+            //System.out.println("wywo³anie co  sec");
             if (!block.go()) {
                 block.setMoving(false);
             }
-            //block.goRight();
             countTime = 0;
         }
     }

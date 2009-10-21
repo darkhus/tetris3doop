@@ -1,26 +1,71 @@
 package blogic;
 
 
-
+/**
+ * that class represent currently moving block
+ *
+ * @author Pawel
+ */
 public class Block {
 
+    /**
+     * size of the block
+     */
     private byte size = 3;
+
+    /**
+     * coordinate X of location
+     */
     private byte coordinateX;
+
+    /**
+     * coordinate Y of location
+     */
     private byte coordinateY;
+
+    /**
+     * coordinate Z of location
+     */
     private byte coordinateZ;
+    
+     /**
+     * array which indicates shape, and color of block
+     */
     private short[][][] patternBox;
+
+    /**
+     * world array
+     */
     private short[][][] world;
 
+    /**
+     * if block still is moving
+     */
     private boolean moving = true;
 
+    /**
+     * return if block is still moving
+     */
     public boolean isMoving() {
         return moving;
     }
 
+    /**
+     * set if block is still moving, or already stop
+     */
     public void setMoving(boolean moving) {
         this.moving = moving;
     }
 
+    /**
+     * block consturctor
+     *
+     * @param wX x coordinate of block location
+     * @param wY y coordinate of block location
+     * @param wZ z coordinate of block location
+     * @param patternBox array which indicates shape of block
+     * @param world array which describes world
+     */
     public Block(byte wX, byte wY, byte wZ, short[][][] patternBox, short[][][] world) {
         coordinateX = wX;
         coordinateY = wY;
@@ -29,8 +74,10 @@ public class Block {
         this.world = world;
     }
 
-     public boolean go() {
-       System.out.println("akutalnie Y: " + coordinateY);
+    /**
+     * moves block down
+     */
+    public boolean go() {
        if (canMove(coordinateX, (byte)(coordinateY - 1), coordinateZ, this.patternBox)) {
             move(coordinateX, (byte)(coordinateY - 1), coordinateZ);
             return true;
@@ -38,6 +85,9 @@ public class Block {
         return false;
     }
 
+    /**
+     * moves block forward
+     */
     public boolean goForward() {
         if (canMove(coordinateX, coordinateY, (byte)(coordinateZ + 1), this.patternBox)) {
             move(coordinateX, coordinateY, (byte)(coordinateZ + 1));
@@ -46,6 +96,9 @@ public class Block {
         return false;
     }
 
+    /**
+     * moves block backward
+     */
     public boolean goBackward() {
         if (canMove(coordinateX, coordinateY, (byte)(coordinateZ - 1), this.patternBox)) {
             move(coordinateX, coordinateY, (byte)(coordinateZ - 1));
@@ -54,6 +107,9 @@ public class Block {
         return false;
     }
 
+    /**
+     * moves block left
+     */
     public boolean goLeft() {
         if (canMove((byte)(coordinateX - 1), coordinateY, coordinateZ, this.patternBox)) {
             move((byte)(coordinateX - 1), coordinateY, coordinateZ);
@@ -62,6 +118,9 @@ public class Block {
         return false;
     }
 
+    /**
+     * moves block right
+     */
     public boolean goRight() {
         if (canMove((byte)(coordinateX + 1), coordinateY, coordinateZ, this.patternBox)) {
             move((byte)(coordinateX + 1), coordinateY, coordinateZ);
@@ -70,6 +129,9 @@ public class Block {
         return false;
     }
 
+    /**
+     * moves block down
+     */
     public boolean goDown() {
         if (canMove(coordinateX, coordinateY, (byte)(coordinateZ - 1), this.patternBox)) {
             move(coordinateX, coordinateY, (byte)(coordinateZ - 1));
@@ -91,11 +153,17 @@ public class Block {
         return loc;
     }
 
+    /**
+     * return if block can be moved to given location
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param patternBox
+     * @return if block can be moved
+     */
     private boolean canMove(byte x, byte y, byte z, short[][][] patternBox)
     {
-        System.out.println("akutalna wspolrzedna " + coordinateX + " " + coordinateY + " " + coordinateZ);
-        System.out.println("docelowa wspolrzedna " + x + " " + y + " " + z);
-      
         x = (byte)(x - 1);
         y = (byte)(y - 1);
         z = (byte)(z - 1);
@@ -121,12 +189,14 @@ public class Block {
     /**
      * returns patternBox
      *
-     * @return
      */
     public short[][][] getPatternBox() {
         return patternBox;
     }
 
+    /**
+     * turns block vertically
+     */
     public void turnRightHor() {
         short[][][] newPatternBox = new short[size][size][size];
         for (int k = 0; k < size; k++) {
@@ -147,6 +217,9 @@ public class Block {
         }
     }
 
+    /**
+     * turns block vertically
+     */
     public void turnLeftHor() {
         short[][][] newPatternBox = new short[size][size][size];
         for (int k = 0; k < size; k++) {
@@ -167,6 +240,9 @@ public class Block {
         }
     }
 
+    /**
+     * turns block vertically
+     */
     public void turnLeftVer() {
         short[][][] newPatternBox = new short[size][size][size];
         for (int k = 0; k < size; k++) {
@@ -187,6 +263,9 @@ public class Block {
         }
     }
 
+    /**
+     * turns block vertically
+     */
     public void turnRightVer() {
         short[][][] newPatternBox = new short[size][size][size];
         for (int k = 0; k < size; k++) {
@@ -207,12 +286,22 @@ public class Block {
         }
     }
 
+    /**
+     * moves a block to given location
+     * 
+     * @param coordinateX
+     * @param coordinateY
+     * @param coordinateZ
+     */
     private void move(byte coordinateX, byte coordinateY, byte coordinateZ) {
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
         this.coordinateZ = coordinateZ;
     }
 
+    /**
+     * method adds block to the world
+     */
     public void addToWorld() {
         byte x = (byte)(this.coordinateX - 1);
         byte y = (byte)(this.coordinateY - 1);

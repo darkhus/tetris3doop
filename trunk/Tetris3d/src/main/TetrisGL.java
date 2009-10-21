@@ -5,6 +5,7 @@ import blogic.BlockFactory;
 import blogic.BlockMove;
 import blogic.Logic;
 
+import com.sun.opengl.util.GLUT;
 import javax.media.opengl.*;
 import javax.media.opengl.glu.GLU;
 import javax.swing.JDialog;
@@ -12,20 +13,21 @@ import javax.swing.JOptionPane;
 
 public class TetrisGL extends GLCanvas implements Runnable {
 
-    private Camera camera;
-    private final int NUM_DELAYS_PER_YIELD = 16;
-    private int MAX_RENDER_SKIPS = 5;
-    private long prevStatsTime;
-    private long gameStartTime;
-    private long period;
-    private Thread animator;
-    private GLDrawable drawable;
-    private GLContext context;
-    private GL gl;
-    private GLU glu;
-    private boolean isResized = false;
-    private int panelWidth, panelHeight;
-    private KeyChecker keys;
+	private Camera camera;
+	private final int NUM_DELAYS_PER_YIELD = 16;
+	private int MAX_RENDER_SKIPS = 5;
+	private long prevStatsTime;
+	private long gameStartTime;
+	private long period;
+	private Thread animator;
+  	private GLDrawable drawable;
+  	private GLContext context;
+  	private GL gl;
+  	private GLU glu;
+    private GLUT glut;
+  	private boolean isResized = false;
+  	private int panelWidth, panelHeight;
+	private KeyChecker keys;
     private boolean isRunning;
     private graphics.Graphics myGraphic;
     private Block block;
@@ -116,6 +118,8 @@ public class TetrisGL extends GLCanvas implements Runnable {
         makeContentCurrent();
         gl = context.getGL();
         glu = new GLU();
+        glut = new GLUT();
+        resizeView();
         myGraphic.init(gl);
         myGraphic.setWorld(world);
         context.release();
@@ -232,14 +236,33 @@ public class TetrisGL extends GLCanvas implements Runnable {
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
 
+        displayHUD();
+        
         camera.LookAt(gl);
 
         myGraphic.display(gl);
+    }
 
-        gl.glPushAttrib(GL.GL_COLOR_BUFFER_BIT | GL.GL_POLYGON_BIT | GL.GL_LIGHTING_BIT | GL.GL_ENABLE_BIT | GL.GL_CURRENT_BIT | GL.GL_DEPTH_BUFFER_BIT | GL.GL_TEXTURE_BIT);
-        gl.glDisable(GL.GL_LIGHTING);
-        //		menu.showMenu(gl, true, terMap, States.NUM_OF_MAP);
-//		menu.displayHUD(gl, tower1.getV0(), tower2.getV0(), tower1.getLastV0(), tower2.getLastV0() );
-        gl.glPopAttrib();
+    private void displayHUD(){
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glPushMatrix();
+        gl.glLoadIdentity();
+        gl.glOrtho(0.0f, panelWidth, panelHeight, 0.0f, -1.0f, 1.0f);
+
+        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glPushMatrix();
+        gl.glLoadIdentity();
+        gl.glDisable(GL.GL_DEPTH_TEST);
+
+        gl.glRasterPos2i(100, panelHeight-50);
+        gl.glColor3f(.7f, .2f, .1f);
+        glut.glutBitmapString(GLUT.BITMAP_TIMES_ROMAN_24, "I LOVE TETRIS 3D ;-)");
+
+        gl.glEnable(GL.GL_DEPTH_TEST);
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glPopMatrix();
+        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glPopMatrix();
+
     }
 }

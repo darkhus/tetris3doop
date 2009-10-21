@@ -1,21 +1,13 @@
 package main;
 
-import java.applet.*;
 import java.awt.*;
 import javax.media.opengl.*;
-import javax.media.opengl.glu.GLU;
-import com.sun.opengl.util.*;
+import javax.swing.JApplet;
 
-public class AppletJOGL extends Applet implements Runnable{
-	private Animator animator;
-	private GLU glu = new GLU();
 
+public class AppletJOGL extends JApplet{
+	
 	TetrisGL canvas;
-
-    public AppletJOGL()
-    {
-        glu = new GLU();
-    }
 
 	public TetrisGL makeCanvas()
 	{
@@ -28,37 +20,21 @@ public class AppletJOGL extends Applet implements Runnable{
 	}
 
 	public void init() {
-//		cookieThread = new CookieThread();
-		new Thread(this).start();
+        new Thread().start();
 		setLayout(new BorderLayout());
+        setSize(800, 600);
 		canvas = makeCanvas();
 
 		add(canvas, BorderLayout.CENTER);
-//		animator = new FPSAnimator(canvas, 60);
-		animator = new Animator(canvas);
-
 	}
 
 	public void start() {
-		animator.start();
+		
 	}
 
 	public void stop() {
-		canvas.destroyAll();
-		animator.stop();
+		canvas.destroyAll();		
 	}
 
-    public void run()
-	{
-		while(true)
-		{
-		try{
-			Thread.sleep(1000);
-		}
-		catch (InterruptedException e)
-    	{e.printStackTrace();}
-		}
-
-	}
 
 } // class

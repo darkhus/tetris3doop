@@ -1,25 +1,40 @@
 <HTML>
     <HEAD>
-        <TITLE>Sea Fight Game</TITLE>
+        <TITLE>Tetris 3d</TITLE>
     </HEAD>
-    <BODY bgcolor="#FFFFFF">
-        <H1>Name of the program</H1>
+    <BODY bgcolor="#000000" style="color:#FFFFFF;">
+        <H1>Tetris 3d</H1>
         <H2>OOP in Java Project Work</H2>
         <HR>
-        <APPLET CODE="YourAppletClass.class"
-            WIDTH=600
-            HEIGHT=400
-            CODEBASE="classes"
-            ALT="Your browser understands the &lt;APPLET&gt; tag but isn't running the applet, for some reason.">
-          Your browser is ignoring the &lt;APPLET&gt; tag!
-        </APPLET>
+<applet code="com.sun.opengl.util.JOGLAppletLauncher"
+     width=640
+     height=480
+     codebase="http://matrix.umcs.lublin.pl/~dkosz/tetris3d/luncher"
+     archive="jogl.jar,gluegen-rt.jar,AppletJOGL.jar"
+	 MAYSCRIPT>
+	 
+  <param name="subapplet.classname" VALUE="main.AppletJOGL">
+
+  <param name="subapplet.displayname" VALUE="Tetris3D OOP">
+  <param name="progressbar" value="true">
+  <param name="cache_archive" VALUE="jogl.jar,gluegen-rt.jar,../AppletJOGL/AppletJOGL.jar">
+  <param name="cache_archive_ex" VALUE="jogl.jar;preload,gluegen-rt.jar;preload,../AppletJOGL/AppletJOGL.jar;preload">
+ 
+ALT="Your browser understands the &lt;APPLET&gt; tag but isn't running the applet, for some reason.">
+          Your browser is ignoring the &lt;APPLET&gt; tag!     
+</applet>
+            
+	* before you can play, you must click on the applet.
         <HR>
         <h2>USER INSTRUCTIONS: </h2>
         <h3>Rules:</h3>
-        <p>rules of the game</p>
-        <h3>Operation 1:</h3>
-        <p>typical operations with the applet</p>
-        <h3>Operation 2: </h3>
-        <p>...</p>
+        <p>As in simple tetris game, the goal is to fit the block into the net so that they occupy all the space on the bottom of the cuboid. As soon as any level is full, it will  disappear, leaving space for new blocks. The game is over if the blocks reach the top of the cuboid.</p>
+        <h3>Operating the camera's view:</h3>
+        <p>You can change the perspective by pressing q, a, e, d keys</p>
+        <p>You can zoom in / zoom out by pressing w, s keys</p>
+        <h3>Moving the block around: </h3>
+        <p>You can move the block around using the arrow keys</p>
+        <p>You can rotate the block using the x, c and f, v keys</p>
+        <p>You can speed up the block pressing space bar</p>
     </BODY>
 </HTML>

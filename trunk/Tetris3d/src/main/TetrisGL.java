@@ -1,9 +1,9 @@
 package main;
 
-import blockLogic.Block;
-import blockLogic.BlockFactory;
-import blockLogic.BlockMove;
-import blockLogic.Logic;
+import blogic.Block;
+import blogic.BlockFactory;
+import blogic.BlockMove;
+import blogic.Logic;
 
 import javax.media.opengl.*;
 import javax.media.opengl.glu.GLU;

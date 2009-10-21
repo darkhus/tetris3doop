@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package blockLogic;
+package blogic;
 
 import java.awt.event.KeyEvent;
 

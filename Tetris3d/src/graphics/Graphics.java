@@ -13,7 +13,14 @@ public class Graphics {
      * A field with color look up table; each element contains R G B values
      * for color stored under given index
      */
-    float[][] colorLookUpTable = new float[][]{{0.3f, 0.5f, 0f}, {0.6f, 0.3f, 0f}, {0f, 0.4f, 0.7f}, {0.3f, 0f, 0.5f}};
+    float[][] colorLookUpTable = new float[][]{
+        {0.7f, 0.1f, 0.1f},
+        {0.7f, 0.5f, 0.1f},
+        {0.1f, 0.1f, 0.6f},
+        {0.1f, 0.6f, 0.6f},
+        {0.1f, 0.7f, 0.1f},
+        {0.6f, 0.1f, 0.5f},
+        {0.4f, 0.4f, 0.4f}};// = new float[][]{{0.3f, 0.5f, 0f}, {0.6f, 0.3f, 0f}, {0f, 0.4f, 0.7f}, {0.3f, 0f, 0.5f},  {0.0f, 0.5f, 0.6f}, {0.6f, 0.1f, 0.4f}};
     /**
      * Represents falling block's shape and color
      */
@@ -33,13 +40,14 @@ public class Graphics {
      * with their colors
      */
     short[][][] world;/* = new short[][][]{
-        {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
-        {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
-        {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
-        {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
-        {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
-        {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}}
+    {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
+    {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
+    {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
+    {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
+    {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
+    {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}}
     };*/
+
     /**
      * Width of the game area
      */
@@ -48,6 +56,8 @@ public class Graphics {
      * Depth of the game area
      */
     private final int netSizeY = 8;
+    private boolean showFallingCubeShadow = true;
+    private boolean showLaidCubeShadow = false;
 
     /**
      * Gets the coordinates of falling block relative to the world
@@ -195,7 +205,11 @@ public class Graphics {
                     for (int z = 0; z < xSize; z++) {
                         if (patternBox[x][y][z] != 0) {
                             //System.out.println("x=" + x + ",y=" + z + ",z=" + y + "|xx=" + (x + coords[0] - xSize) + ",yy=" + (z + coords[2] - xSize) + ",zz=" + (y + coords[1] - xSize));
+                            if (showFallingCubeShadow) {
+                                drawCubeShadow(gl, netSizeX, netSizeY, world.length, world[0].length, x + coords[0] - xSize / 2 - 1, z + coords[2] - xSize / 2 - 1, y + coords[1] - xSize / 2 - 1, /*patternBox[x][y][z]*/ (short) colorLookUpTable.length);
+                            }
                             drawCube(gl, netSizeX, netSizeY, world.length, world[0].length, x + coords[0] - xSize / 2 - 1, z + coords[2] - xSize / 2 - 1, y + coords[1] - xSize / 2 - 1, patternBox[x][y][z]);
+
                         }
                     }
                 }
@@ -216,12 +230,14 @@ public class Graphics {
             for (int y = 0; y < ySize; y++) {
                 for (int z = 0; z < zSize; z++) {
                     if (world[x][y][z] != 0) {
+                        if (showLaidCubeShadow) {
+                            drawCubeShadow(gl, netSizeX, netSizeY, world.length, world[0].length, x, z, y, (short) (colorLookUpTable.length));
+                        }
                         drawCube(gl, netSizeX, netSizeY, world.length, world[0].length, x, z, y, world[x][y][z]);
                     }
                 }
             }
         }
-
     }
 
     /* coordinates from 1 not 0 */
@@ -293,6 +309,61 @@ public class Graphics {
     }
 
     /**
+     * Draws single cube's shadow
+     * @param gl openGL machine
+     * @param netWidth - width of the world the cube is in
+     * @param netDepth - depth of the world the cube is in
+     * @param numberOfCellsW - number of cells across the world the cube is in
+     * @param numberOfCellsD - number of cells along the world the cube is in
+     * @param coordX - x coordinate of the cube in the world (numbering from 1)
+     * @param coordY - y coordinate of the cube in the world (numbering from 1)
+     * @param coordZ - z coordinate of the cube in the world (numbering from 1)
+     * @param color - number of cube's color
+     */
+    private void drawCubeShadow(GL gl, float netWidth, float netDepth, int numberOfCellsW, int numberOfCellsD, int coordX, int coordY, int coordZ, short color) {
+        //System.err.println("putting cube at: (" + coordX + "," + coordY + "," + zCoord + ")");
+        float startingPointX = -(netWidth / 2);
+        float startingPointY = -(netDepth / 2);
+        float cellSizeX = netWidth / numberOfCellsW;
+        float cellSizeY = netDepth / numberOfCellsD;
+        float cellSizeZ = cellSizeX;
+        gl.glBegin(GL.GL_QUADS);
+        float[] colors = colorLookUpTable[color - 1];
+        gl.glColor3d(colors[0] - 0.2f, colors[1] - 0.2f, colors[2] - 0.2f);
+        int x = coordX;
+        int y = coordY;
+
+        //RIGHT SHADOW:
+        gl.glNormal3f(1f, 0f, 0f);
+        gl.glVertex3f(startingPointX + (numberOfCellsW + 0) * cellSizeX, startingPointY + (y + 0) * cellSizeY, cellSizeZ * (coordZ + 1));
+        gl.glVertex3f(startingPointX + (numberOfCellsW + 0) * cellSizeX, startingPointY + (y + 1) * cellSizeY, cellSizeZ * (coordZ + 1));
+        gl.glVertex3f(startingPointX + (numberOfCellsW + 0) * cellSizeX, startingPointY + (y + 1) * cellSizeY, cellSizeZ * (coordZ + 0));
+        gl.glVertex3f(startingPointX + (numberOfCellsW + 0) * cellSizeX, startingPointY + (y + 0) * cellSizeY, cellSizeZ * (coordZ + 0));
+
+        //LEFT SHADOW:
+        gl.glNormal3f(-1f, 0f, 0f);
+        gl.glVertex3f(startingPointX + (0), startingPointY + (y + 0) * cellSizeY, cellSizeZ * (coordZ + 0));
+        gl.glVertex3f(startingPointX + (0), startingPointY + (y + 1) * cellSizeY, cellSizeZ * (coordZ + 0));
+        gl.glVertex3f(startingPointX + (0), startingPointY + (y + 1) * cellSizeY, cellSizeZ * (coordZ + 1));
+        gl.glVertex3f(startingPointX + (0), startingPointY + (y + 0) * cellSizeY, cellSizeZ * (coordZ + 1));
+
+        //TOP SHADOW:
+        gl.glNormal3f(0f, 1f, 0f);
+        gl.glVertex3f(startingPointX + (x + 0) * cellSizeX, startingPointY + (numberOfCellsW) * cellSizeY, cellSizeZ * (coordZ + 0));
+        gl.glVertex3f(startingPointX + (x + 1) * cellSizeX, startingPointY + (numberOfCellsW) * cellSizeY, cellSizeZ * (coordZ + 0));
+        gl.glVertex3f(startingPointX + (x + 1) * cellSizeX, startingPointY + (numberOfCellsW) * cellSizeY, cellSizeZ * (coordZ + 1));
+        gl.glVertex3f(startingPointX + (x + 0) * cellSizeX, startingPointY + (numberOfCellsW) * cellSizeY, cellSizeZ * (coordZ + 1));
+
+        //BOTTOM SHADOW:
+        gl.glNormal3f(0f, -1f, 0f);
+        gl.glVertex3f(startingPointX + (x + 0) * cellSizeX, startingPointY + (0), cellSizeZ * (coordZ + 0));
+        gl.glVertex3f(startingPointX + (x + 0) * cellSizeX, startingPointY + (0), cellSizeZ * (coordZ + 1));
+        gl.glVertex3f(startingPointX + (x + 1) * cellSizeX, startingPointY + (0), cellSizeZ * (coordZ + 1));
+        gl.glVertex3f(startingPointX + (x + 1) * cellSizeX, startingPointY + (0), cellSizeZ * (coordZ + 0));
+        gl.glEnd();
+    }
+
+    /**
      * Builds the world - a cuboid consisting of four rectangular and two quadratic walls
      * @param gl openGL machine
      * @param netWidth the size of quadratic wall
@@ -302,7 +373,7 @@ public class Graphics {
      */
     private void buildWorld(GL gl, float netWidth, float netDepth, int numberOfCellsW, int numberOfCellsD) {
         //BACK WALL
-        buildWall(gl, netWidth, netWidth, numberOfCellsW, numberOfCellsW, 0.3f, -netDepth / 2);
+        buildWall(gl, netWidth, netWidth, numberOfCellsW, numberOfCellsW, 0.2f, -netDepth / 2);
 
         //RIGHT WALL
         gl.glPushMatrix();
@@ -329,13 +400,14 @@ public class Graphics {
         gl.glPushMatrix();
         gl.glRotatef(270, 1f, 0f, 0f);
         gl.glTranslatef(0.0f, 0.0f, -netDepth / 4);
-        buildWall(gl, netWidth, netDepth, numberOfCellsW, numberOfCellsD, 0.5f, 0.0f);
+        buildWall(gl, netWidth, netDepth, numberOfCellsW, numberOfCellsD, 0.1f, 0.0f);
         gl.glPopMatrix();
 
+        //FRONT WALL
         gl.glPushMatrix();
         gl.glRotatef(180, 1f, 0f, 0f);
         gl.glTranslatef(0.0f, 0.0f, -netDepth / 2);
-        buildWall(gl, netWidth, netWidth, numberOfCellsW, numberOfCellsW, 0.8f, 0.0f);
+        buildWall(gl, netWidth, netWidth, numberOfCellsW, numberOfCellsW, 0.5f, 0.0f);
         gl.glPopMatrix();
 
     }

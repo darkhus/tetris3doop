@@ -66,7 +66,7 @@ public class JOGL extends JFrame implements WindowListener
     /**
      * create canvas accordin to hardware capabilities,
      * alse enabls 2x antialiasing
-     * @return
+     * @return game canvas
      */
 	public TetrisGL makeCanvas()
 	{

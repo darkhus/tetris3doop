@@ -348,12 +348,12 @@ public class Graphics {
         gl.glVertex3f(startingPointX + (0), startingPointY + (y + 0) * cellSizeY, cellSizeZ * (coordZ + 1));
 
         //TOP SHADOW:
-        gl.glNormal3f(0f, 1f, 0f);
+   /*     gl.glNormal3f(0f, 1f, 0f);
         gl.glVertex3f(startingPointX + (x + 0) * cellSizeX, startingPointY + (numberOfCellsW) * cellSizeY, cellSizeZ * (coordZ + 0));
         gl.glVertex3f(startingPointX + (x + 1) * cellSizeX, startingPointY + (numberOfCellsW) * cellSizeY, cellSizeZ * (coordZ + 0));
         gl.glVertex3f(startingPointX + (x + 1) * cellSizeX, startingPointY + (numberOfCellsW) * cellSizeY, cellSizeZ * (coordZ + 1));
         gl.glVertex3f(startingPointX + (x + 0) * cellSizeX, startingPointY + (numberOfCellsW) * cellSizeY, cellSizeZ * (coordZ + 1));
-
+*/
         //BOTTOM SHADOW:
         gl.glNormal3f(0f, -1f, 0f);
         gl.glVertex3f(startingPointX + (x + 0) * cellSizeX, startingPointY + (0), cellSizeZ * (coordZ + 0));

@@ -58,7 +58,7 @@ public class AppletJOGL extends JApplet{
      * applet closed, destroy all
      */
     public void destroy(){
-        canvas.destroyAll();
+        canvas.stopGame();
     }
 
 

@@ -6,11 +6,21 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.media.opengl.*;
 
-
+/**
+ * This class creates frame and opengl canvas to render
+ * graphic, starts render thread and makes it visible
+ * @author Darek
+ */
 public class JOGL extends JFrame implements WindowListener
 {
+    /**
+     * rendering canvas for this application
+     */
 	private TetrisGL canvas;
 
+    /**
+     * constructor, starts game
+     */
 	public JOGL()
 	{
 	  	super("Tetris 3D");
@@ -25,6 +35,10 @@ public class JOGL extends JFrame implements WindowListener
 	}
 
 
+    /**
+     * this method makes rendering panel with opengl rendering canvas
+     * @return panel witch rendering ranvas
+     */
 	public JPanel makeRenderPanel()
 	{
 	    JPanel renderPane = new JPanel();
@@ -49,6 +63,11 @@ public class JOGL extends JFrame implements WindowListener
 	    return renderPane;
 	}
 
+    /**
+     * create canvas accordin to hardware capabilities,
+     * alse enabls 2x antialiasing
+     * @return
+     */
 	public TetrisGL makeCanvas()
 	{
         GLCapabilities capabilities = new GLCapabilities();
@@ -59,25 +78,57 @@ public class JOGL extends JFrame implements WindowListener
 	    return new TetrisGL(capabilities);
 	}
 
-
+    /**
+     * implemented method from WindowListener interface
+     * @param e window event
+     */
 	public void windowActivated(WindowEvent e)
-	{ canvas.resumeGame(); }
+	{  }
 
+    /**
+     * implemented method from WindowListener interface
+     * @param e window event
+     */
 	public void windowDeactivated(WindowEvent e)
-	{ canvas.pauseGame(); }
+	{  }
 
+    /**
+     * implemented method from WindowListener interface
+     * @param e window event
+     */
 	public void windowDeiconified(WindowEvent e)
-	{ canvas.resumeGame(); }
+	{ }
 
+    /**
+     * implemented method from WindowListener interface
+     * @param e window event
+     */
 	public void windowIconified(WindowEvent e)
-	{ canvas.pauseGame(); }
+	{ }
 
+    /**
+     * implemented method from WindowListener interface,
+     * stops game when closing
+     * @param e window event
+     */
 	public void windowClosing(WindowEvent e)
 	{ canvas.stopGame(); }
 
+    /**
+     * implemented method from WindowListener interface
+     * @param e window event
+     */
 	public void windowClosed(WindowEvent e) {}
+    /**
+     * implemented method from WindowListener interface
+     * @param e window event
+     */
 	public void windowOpened(WindowEvent e) {}
 
+    /**
+     * main application method, starts game
+     * @param args args for this application
+     */
 	public static void main(String[] args)
 	{
     	new JOGL();

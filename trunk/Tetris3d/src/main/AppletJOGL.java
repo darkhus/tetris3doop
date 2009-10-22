@@ -33,8 +33,11 @@ public class AppletJOGL extends JApplet{
 	}
 
 	public void stop() {
-		canvas.destroyAll();		
 	}
+    
+    public void destroy(){
+        canvas.destroyAll();
+    }
 
 
 } // class

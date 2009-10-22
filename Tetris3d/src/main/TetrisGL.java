@@ -10,25 +10,73 @@ import javax.media.opengl.*;
 import javax.media.opengl.glu.GLU;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-
+/**
+ * This class is main class to create canvas for OpenGL,
+ * also create game loop and aggregate other game classes,
+ * here is place where game is going
+ * @author Darek
+ */
 public class TetrisGL extends GLCanvas implements Runnable {
-
+/**
+ * Camera object
+ */
 	private Camera camera;
+    /**
+     * constatnt describes numbers of loop iteration (delay)
+     * before animation thread yields to other threads (in game loop)
+     */
 	private final int NUM_DELAYS_PER_YIELD = 16;
+    /**
+     * max number of skips of render (in game loop)
+     */
 	private int MAX_RENDER_SKIPS = 5;
-	private long prevStatsTime;
-	private long gameStartTime;
+    /**
+     * period of loop running (in nano sec)
+     */
 	private long period;
+    /**
+     * animation thread
+     */
 	private Thread animator;
+    /**
+     * interface for rendering surface
+     */
   	private GLDrawable drawable;
+    /**
+     * rendering context
+     */
   	private GLContext context;
+    /**
+     * JOGL's class to invoke OpenGL functions (from gl library)
+     */
   	private GL gl;
+    /**
+     * JOGL's class to invoke OpenGL functions (from glu library)
+     */
   	private GLU glu;
+    /**
+     * JOGL's class to invoke OpenGL functions (from glut library)
+     */
     private GLUT glut;
+    /**
+     * changed when windows is resized
+     */
   	private boolean isResized = false;
+    /**
+     * dimmensions of rendering panel
+     */
   	private int panelWidth, panelHeight;
+    /**
+     * class whixh handle key events
+     */
 	private KeyChecker keys;
+    /**
+     * describes when loop is running
+     */
     private boolean isRunning;
+    /**
+     * graphic class for this application
+     */
     private graphics.Graphics myGraphic;
     /**
      * communicate which is shown
@@ -39,10 +87,18 @@ public class TetrisGL extends GLCanvas implements Runnable {
      * block object
      */
     private Block block;
-    
+    /**
+     * number of frames per sec which application should perform
+     */
     private final int UPS = 80; // update per sec
+    /**
+     * gatger time passed
+     */
     private int countTime = 0;
-    private float blockSpeed = 2.0f; // liczba sekund na wywo³anie
+    /**
+     * speed of block moving
+     */
+    private float blockSpeed = 2.0f;
     
     /**
      * object which handles block movement
@@ -60,6 +116,10 @@ public class TetrisGL extends GLCanvas implements Runnable {
         {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}},
         {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}}
          };
+    /**
+     * Class constructor, initialize and create rendering context
+     * @param caps specifies a set of OpenGL capabilities that a rendering context must support
+     */
 
     public TetrisGL(GLCapabilities caps) {
         //   	super(config);
@@ -82,6 +142,10 @@ public class TetrisGL extends GLCanvas implements Runnable {
         blockMove = new BlockMove();
     }
 
+    /**
+     * Overridden to track when this component is added to a container,
+     * creates new animation thread
+     */
     public void addNotify() {
         super.addNotify();
         drawable.setRealized(true);
@@ -91,16 +155,18 @@ public class TetrisGL extends GLCanvas implements Runnable {
         }
     }
 
-    public void resumeGame() {
-    }
-
-    public void pauseGame() {
-    }
-
+    /**
+     * invoke when game is stoped
+     */
     public void stopGame() {
         isRunning = false;
     }
 
+    /**
+     * invoke when componend is resized
+     * @param w width of panel
+     * @param h height of panel
+     */
     public void reshape(int w, int h) {
         isResized = true;
         if (h == 0) {
@@ -110,9 +176,16 @@ public class TetrisGL extends GLCanvas implements Runnable {
         panelHeight = h;
     }
 
+    @Override
+    /**
+     * override paint method
+     */
     public void paint(java.awt.Graphics g) {
     }
 
+    /**
+     * game thread run
+     */
     public void run() {
         initGame();
         renderLoop();
@@ -120,6 +193,9 @@ public class TetrisGL extends GLCanvas implements Runnable {
         System.exit(0);
     }
 
+    /**
+     * makes contxt current
+     */
     private void makeContentCurrent() {
         try {
             while (context.makeCurrent() == GLContext.CONTEXT_NOT_CURRENT) {
@@ -131,6 +207,9 @@ public class TetrisGL extends GLCanvas implements Runnable {
         }
     }
 
+    /**
+     * initialize game
+     */
     private void initGame() {
         makeContentCurrent();
         gl = context.getGL();
@@ -144,65 +223,72 @@ public class TetrisGL extends GLCanvas implements Runnable {
        
     }
 
+    /**
+     * resize view (cange in OpenGL machinery)
+     */
     private void resizeView() {
         myGraphic.reshape(gl, glu, panelWidth, panelHeight);
     }
 
+    /**
+     * game render and update loop
+     */
     private void renderLoop() {
         long beforeTime, afterTime, timeDiff, sleepTime;
         long overSleepTime = 0L;
         int numDelays = 0;
         long excess = 0L;
 
-        gameStartTime = System.nanoTime();
-        prevStatsTime = gameStartTime;
-        beforeTime = gameStartTime;
+
+        beforeTime = System.nanoTime();
 
         isRunning = true;
 
         while (isRunning) {
             makeContentCurrent();
 
-            gameUpdate();		// aktualizacja
-            renderScene();     //rendering
+            gameUpdate();		// update
+            renderScene();     // rendering
 
-            // zmiana buforów
-            drawable.swapBuffers();  // wy?wietlanie grafiki
+            // swaps buffers double buffering)
+            drawable.swapBuffers(); 
 
             afterTime = System.nanoTime();
             timeDiff = afterTime - beforeTime;
             sleepTime = (period - timeDiff) - overSleepTime;
 
-            if (sleepTime > 0) //nadmiar czasu w p?tli
+            if (sleepTime > 0) // to much time in loop?
             {
                 try {
-                    Thread.sleep(sleepTime / 1000000L);  // nano -> ms
+                    Thread.sleep(sleepTime / 1000000L);  // changing nano sec to ms
                 } catch (InterruptedException ex) {
                 }
                 overSleepTime = (System.nanoTime() - afterTime) - sleepTime;
-            } else // p?tal wykona?a si? wolniej ni? ?adana liczba klatek
+            } else // loop run slower than required fps (UPS)
             {
                 excess -= sleepTime;
                 overSleepTime = 0L;
                 if (++numDelays >= NUM_DELAYS_PER_YIELD) {
-                    Thread.yield();   // wykonanie innych w?tków
+                    Thread.yield();   // run other threads
                     numDelays = 0;
                 }
             }
 
             beforeTime = System.nanoTime();
-            // je?li rendering zabra? za du?o czasu to aktualizuj
-            // pomijaj?c rendering
+            // if rendering tooks to much time then update witch skipping render
             int skips = 0;
             while ((excess > period) && (skips < MAX_RENDER_SKIPS)) {
                 excess -= period;
-                gameUpdate();    // sama aktualizacja
+                gameUpdate();    // only update
                 skips++;
             }
             context.release();
         }
     }
 
+    /**
+     * updates game in render loop
+     */
     private void gameUpdate() {
         camera.Update(keys.keys);
         countTime++;
@@ -231,15 +317,21 @@ public class TetrisGL extends GLCanvas implements Runnable {
         }
     }
 
+    /**
+     * invoke when application is closed
+     */
     public void destroyAll() {
         context.destroy();
         System.out.println("destroy");
         System.exit(0);
     }
 
+    /**
+     * render scene in render loop
+     */
     private void renderScene() {
         if (context.getCurrent() == null) {
-            System.out.println("nie mozna ustalic kontekstu");
+            System.out.println("CURRENT CONTEXT null in RENDER SCENE");
             System.exit(0);
         }
 
@@ -259,6 +351,9 @@ public class TetrisGL extends GLCanvas implements Runnable {
         myGraphic.display(gl);
     }
 
+    /**
+     * method to display HUD (head-up user display)
+     */
     private void displayHUD(){
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glPushMatrix();
